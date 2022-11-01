@@ -1,0 +1,23 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="FireAngel_Calibration.MainWindow"
+        Title="FireAngel_Calibration">
+    <DockPanel VerticalAlignment="Stretch">
+    
+        <Menu DockPanel.Dock="Top" Background="#f0202020">
+            <MenuItem Header="_File">
+                <MenuItem Header="_Open..." Name="mnuOpen"/>
+                <MenuItem Header="_Save..." Name="mnuSave" IsEnabled="False"/>
+                <MenuItem Header="E_xport..." Name="mnuExport" IsEnabled="False"/>
+                <Separator/>
+                <MenuItem Header="_Exit" Name="mnuExit"/>
+            </MenuItem>
+            <MenuItem Header="_Protocol analyzers" Name="mnuProtocols" IsEnabled="False">
+                <MenuItem Header="None"/>
+            </MenuItem>
+        </Menu>
+        </DockPanel>
+</Window>
