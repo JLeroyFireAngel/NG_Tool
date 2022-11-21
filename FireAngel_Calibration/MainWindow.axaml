@@ -6,18 +6,18 @@
         x:Class="FireAngel_Calibration.MainWindow"
         Title="FireAngel_Calibration">
     <DockPanel VerticalAlignment="Stretch">
-    
+
         <Menu DockPanel.Dock="Top" Background="#f0202020">
             <MenuItem Header="_File">
-                <MenuItem Header="_Open..." Name="mnuOpen"/>
+                <!--<MenuItem Header="_Open..." Name="mnuOpen"/>
                 <MenuItem Header="_Save..." Name="mnuSave" IsEnabled="False"/>
                 <MenuItem Header="E_xport..." Name="mnuExport" IsEnabled="False"/>
-                <Separator/>
-                <MenuItem Header="_Exit" Name="mnuExit"/>
+                <Separator/>-->
+                <MenuItem Header="_Exit" Name="mnuExit" Click="MnuExit_OnClick"/>
             </MenuItem>
-            <MenuItem Header="_Protocol analyzers" Name="mnuProtocols" IsEnabled="False">
-                <MenuItem Header="None"/>
+            <MenuItem Header="_Help" Name="mnuProtocols">
+                <MenuItem Header="_About" />
             </MenuItem>
         </Menu>
-        </DockPanel>
+    </DockPanel>
 </Window>

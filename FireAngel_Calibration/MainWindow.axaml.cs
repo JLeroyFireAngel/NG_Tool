@@ -15,46 +15,78 @@ namespace FireAngel_Calibration
     {
         public IConfigurationRoot _Configuration { get; set; }
         public static MainWindow? Instance { get; private set; }
-
+        private static ToolConfig ToolConfig { get; set; } = new ToolConfig();
         public MainWindow()
         {
             var builder = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             _Configuration = builder.Build();
-            var myFirstClass = _Configuration.GetSection("Protocols").Get<List<Protocol>>();//Configuration.GetSection("Protocols") as Protocols;
-            foreach (var x in myFirstClass)
+            ToolConfig.ProductProtocols = _Configuration.GetSection("ProductProtocols").Get<List<ProductProtocol>>();
+            ToolConfig.LowLevelProtocols = _Configuration.GetSection("LowLevelProtocols").Get<List<LowLevelProtocol>>();//Configuration.GetSection("Protocols") as Protocols;
+            foreach (var x in ToolConfig.LowLevelProtocols)
             {
-                Console.WriteLine($"{x.Name}, {x.ProtocolHandler}, {x.CommandSize}");
-                foreach (var y in x.CommandSet)
+                Console.WriteLine($"{x.Name}");
+                foreach (var y in x.NackReasonCodes)
                 {
-                    
+                    Console.WriteLine($"\t{y.Name} - 0x{y.Value:X2}");
                     //Console.WriteLine($"/t{y.Name} => {y.GetValue(x)}");
                 }
+
+                foreach (var y in x.Commands)
+                {
+                    Console.WriteLine($"{y.Group} - 0x{y.GroupCode:X2}__");
+                    Console.WriteLine($"{y.GroupCommands.ToString()}");
+                }
             }
+            
             InitializeComponent();
+        }
+
+        private void MnuExit_OnClick(object? sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 
-    class ProtocolCommand
+
+    public class GroupCommand
     {
         public String Description { get; set; }
-        public Byte CommandId { get; set; }
-        public UInt16 TxDataSize { get; set; }
-        public UInt16 RxDataSize { get; set; }
-        public Boolean XModem { get; set; }
+        public Byte SubCommandId { get; set; }
+        public String TxType { get; set; }
+        public String RxType { get; set; }
+        public String Unit { get; set; }
+        public float Multiplier { get; set; } = 1.0f;
     }
-    
-    class Protocol
+    public class Command
+    {
+        public String Group { get; set; }
+        public Byte GroupCode { get; set; }
+        public List<GroupCommand> GroupCommands { get; set; }
+    }
+    public class NackReasonCode
+    {
+        public String Name { get; set; }
+        public Byte Value { get; set; }
+    }
+    public class LowLevelProtocol
+    {
+        public String Name { get; set; }
+        public List<NackReasonCode> NackReasonCodes { get; set; }
+        public List<Command> Commands { get; set; }
+
+    }
+
+    public class ProductProtocol
     {
         public String Name { get; set; }
         public String ProtocolHandler { get; set; }
-        public UInt16 CommandSize { get; set; }
-        public List<ProtocolCommand> CommandSet {get;set;}
+        public List<UInt16> CommandSet { get; set; }
     }
-
-    class Protocols
+    public class ToolConfig
     {
-        public List<Protocol> ProtocolList { get; set; }
+        public List<LowLevelProtocol> LowLevelProtocols { get; set; }
+        public List<ProductProtocol> ProductProtocols { get; set; }
     }
 }
